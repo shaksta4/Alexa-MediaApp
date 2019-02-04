@@ -1,0 +1,11 @@
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Debug\netcoreapp2.1\AWSLambdaTest.deps.json
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Debug\netcoreapp2.1\AWSLambdaTest.runtimeconfig.json
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Debug\netcoreapp2.1\AWSLambdaTest.runtimeconfig.dev.json
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Debug\netcoreapp2.1\AWSLambdaTest.dll
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Debug\netcoreapp2.1\AWSLambdaTest.csprojAssemblyReference.cache
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Debug\netcoreapp2.1\AWSLambdaTest.csproj.CoreCompileInputs.cache
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Debug\netcoreapp2.1\AWSLambdaTest.AssemblyInfoInputs.cache
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Debug\netcoreapp2.1\AWSLambdaTest.AssemblyInfo.cs
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Debug\netcoreapp2.1\AWSLambdaTest.pdb
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Debug\netcoreapp2.1\AWSLambdaTest.dll
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Debug\netcoreapp2.1\AWSLambdaTest.pdb

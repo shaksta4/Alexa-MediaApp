@@ -1,0 +1,11 @@
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.deps.json
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.runtimeconfig.json
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.runtimeconfig.dev.json
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.dll
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\bin\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.pdb
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.csprojAssemblyReference.cache
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.csproj.CoreCompileInputs.cache
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.AssemblyInfoInputs.cache
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.AssemblyInfo.cs
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.dll
+D:\Users\Shakeel\Documents\Visual Studio 2017\Projects\AWSLambdaTest\AWSLambdaTest\obj\Release\netcoreapp2.1\rhel.7.2-x64\AWSLambdaTest.pdb
