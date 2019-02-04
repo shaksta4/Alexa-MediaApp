@@ -22,7 +22,9 @@ namespace AWSLambdaTest
 
     public class Function
     {
-
+        /*This function takes in a skillrequest and a string,
+         *It creates the Video Item, sets its url and adds meta data. And then returns the Directive
+         */
         private IDirective GetVideoPlayerDirective(SkillRequest input, string url)
         {
             VideoAppDirective dir = new VideoAppDirective();
@@ -36,6 +38,11 @@ namespace AWSLambdaTest
             return dir;
         }
 
+        /*This function takes in a string which it uses to
+         * compares to a number of cases to figure out what video/audio the user wants to play
+         * It then sets the image, audio and video URLs the case that's requested.
+         * It returns a list holding the audioURL, videoURL, imageURL and title of the media.
+         */
         private List<string> GetMediaToPlay(string id)
         {
             string audioURL = "Unknown audio Url";
@@ -117,6 +124,11 @@ namespace AWSLambdaTest
             return myList;
         }
 
+        /*
+         * This function takes in a system exception request. It returns a string.
+         * It compares the request type to understand what type of exception is being thrown by the skill. 
+         * And returns an appropriate string detailing the exception.
+         */
         private string GetErrorMessage(SystemExceptionRequest sysException)
         {
 
@@ -158,6 +170,13 @@ namespace AWSLambdaTest
             return logString;
         }
 
+        /*
+         * This function takes in an APL skill request, and two strings and returns an Image object.
+         * It creates an image object based on the url passed in and sets its id
+         * based on the id passed in. 
+         * It changes the width and height of the image based on whether the
+         * videoport is round or not.           
+         */
         private Image InitButtonImage(APLSkillRequest input, string url, string id)
         {
             Image myImage = new Image(url);
@@ -177,6 +196,14 @@ namespace AWSLambdaTest
             return myImage;
         }
 
+        /*
+         * This function takes in an APL skill request, and 3 strings and it returns a Container object. 
+         * The id of a button is added to a list "myArguments" as a new TouchableButton is created. 
+         * Then a container is created which holds a touch wrapper and a text object.
+         * The touchwrapper is wrapped around the image object returned by InitButtonImage.
+         * It then sends the id of the tapped image as an argument.
+         * The text object is the title of each touchable button.
+         */
         private Container CreateTouchableButton(APLSkillRequest input, string url, string id, string title)
         {
             List<string> myArguments = new List<string>();
@@ -194,6 +221,10 @@ namespace AWSLambdaTest
             return myContainer;
         }
 
+        /*
+         * This object takes in an APL skill request and returns an array of Containers
+         * Each element of this array is a new touchable button returned by the CreateTouchableButton function
+         */
         private Container[] CreateMyButtons(APLSkillRequest input)
         {
             Container[] myButtons = new Container[10];
@@ -212,6 +243,12 @@ namespace AWSLambdaTest
             return myButtons;
         }
 
+        /*
+         * This function takes in 3 strings and returns a skill response.
+         * It creates and sets the metadata for each audio item
+         * It then uses the AudioPlayerPlay function to create a 
+         * response to play the audio.
+         */
         private SkillResponse PlayAudio(string audioURL, string imageURL, string mediaTitle)
         {
             IOutputSpeech innerResponse;
@@ -233,7 +270,13 @@ namespace AWSLambdaTest
             return audioResponse;
         }
 
-        private SkillResponse PlayVideo(APLSkillRequest input, string videoURL, string imageURL, string mediaTitle)
+        /*
+         *This function takes in an APL skill request, and 3 strings. 
+         * It uses GetVideoPlayerDirective, and adds it to the response directive. 
+         * Then any mandatory fields are set (Version, ShouldEndSession) and it 
+         * returns the response to play the video.
+         */
+        private SkillResponse PlayVideo(APLSkillRequest input, string videoURL, string mediaTitle)
         {
             SkillResponse videoResponse = new SkillResponse();
             videoResponse.Response = new ResponseBody();
@@ -246,27 +289,37 @@ namespace AWSLambdaTest
             return videoResponse;
         }
         
+        /*
+         * The main function.
+         * 
+         * Takes in an APL skill request and an ILambdaContext and returns a skill response.
+         * 
+         * 
+         */ 
         public SkillResponse FunctionHandler(APLSkillRequest input, ILambdaContext context)
         {
             var log = context.Logger;
             bool VideoAppSupport = false;
 
+            //Check if devices supports a video app
             if (input.Context.System.Device.IsInterfaceSupported("VideoApp"))
             {
                 VideoAppSupport = true;
             }
 
+            //Done to handle user events from the touchable buttons.
             new UserEventRequestHandler().AddToRequestConverter();
 
             IOutputSpeech innerResponse = null;
             var reprompt = new Reprompt();
 
+            //Default string values
             string audioURL = "Your audio URL is incorrect or outdated!";
             string videoURL = "Your audio URL is incorrect or outdated!";
             string imageURL = "Your image URL is incorrect or outdated!";
             string mediaTitle = "Unknown title";
 
-
+            //What happens when launching the skill
             if (input.Request is LaunchRequest)
             {
                 // default launch request, let's just let them know what you can do
@@ -283,14 +336,18 @@ namespace AWSLambdaTest
                 
                 switch (intentRequest.Intent.Name)
                 {
+                    //If playing audio/video
                     case "PlayMedia":
                         log.LogLine($"Attempting to play media");
+                        //Find requested audio/video
                         string requestId = intentRequest.Intent.Slots["Video.Title"].Resolution.Authorities[0].Values[0].Value.Id;
 
                         if (intentRequest.DialogState.Equals("COMPLETED"))
                         {
                             log.LogLine($"DialogState is Complete");
                             List<string> myList = GetMediaToPlay(requestId);
+
+                            //Setting URLs for the requested audio/video
                             audioURL = myList[0];
                             videoURL = myList[1];
                             imageURL = myList[2];
@@ -301,29 +358,34 @@ namespace AWSLambdaTest
                         if (VideoAppSupport)
                         {
                             log.LogLine("Playing Video");
-                            return PlayVideo(input, videoURL, imageURL, mediaTitle);
+                            return PlayVideo(input, videoURL, mediaTitle);
                         }
 
+                        //Else play audio
                         log.LogLine("Playing Audio");
                         return PlayAudio(audioURL, imageURL, mediaTitle);
 
+                    //If user asks for help   
                     case "AMAZON.HelpIntent":
                         output.Text = "You can ask me to play an audio title. Try asking me to play what is a.s.m.r.";
                         reprompt.OutputSpeech = new PlainTextOutputSpeech() { Text = "Say play what is a.s.m.r." };
                         return ResponseBuilder.Ask(output, reprompt);
 
+                    //If user asks to pause the audio
                     case "AMAZON.PauseIntent":
                         log.LogLine("Stopping audio");
                         var pauseResponse = ResponseBuilder.AudioPlayerStop();
                         pauseResponse.Response.OutputSpeech = new PlainTextOutputSpeech() { Text = " Stopping the audio " };
                         return pauseResponse;
 
+                    //If user asks to stop the video (Pause intent and Stop intent are interchangeable, To Fix)
                     case "AMAZON.StopIntent":
                         log.LogLine("Stopping audio");
                         var stopResponse = ResponseBuilder.AudioPlayerStop();
                         stopResponse.Response.OutputSpeech = new PlainTextOutputSpeech() { Text = " Stopping the audio " };
                         return stopResponse;
-
+                    
+                    //If skill does not understand what user has asked for.
                     case "AMAZON.FallbackIntent":
                         log.LogLine("Fallback intent triggered");
                         innerResponse = new PlainTextOutputSpeech() { Text = "Sorry, I didn't get that." };
@@ -331,11 +393,15 @@ namespace AWSLambdaTest
                         var fallbackResponse = ResponseBuilder.Ask(innerResponse, reprompt);
                         return fallbackResponse;
 
+                    //Debug to help me figure out what intent is being called
                     default:
                         log.LogLine($"Unknown intent: " + intentRequest.Intent.Name);
                         break;
                 }
             }
+            /*
+             * Not entirely sure what this request is. I think it's requests made to the audio player mid playback. 
+             */
             else if (input.Request is AudioPlayerRequest)
             {
                 var audioRequest = input.Request as AudioPlayerRequest;
@@ -352,11 +418,15 @@ namespace AWSLambdaTest
                     return null;
                 }
             }
+
+            //If exception is thrown, log a message
             else if (input.Request is SystemExceptionRequest)
             {
                 var sysException = input.Request as SystemExceptionRequest;
                 log.LogLine(GetErrorMessage(sysException));
             }
+
+            //If session is ended, log the reason. Used for debugging. 
             else if (input.Request is SessionEndedRequest)
             {
                 var sessEndReq = input.Request as SessionEndedRequest;
@@ -374,6 +444,8 @@ namespace AWSLambdaTest
                         break;
                 }
             }
+
+            //If user presses a button.
             else if(input.Request is UserEventRequest)
             {
                 //CHECK IF BUTTON IS BEING PRESSED ---------------- TO DO IF MORE INTERACTABLE CONTENT IS MADE
@@ -382,6 +454,7 @@ namespace AWSLambdaTest
 
                 log.LogLine("The argument being sent is:" + userReq.Arguments[0]);
 
+                //Set audio, video and image urls as well as media title using GetMediaToPlay
                 List<string> myList = GetMediaToPlay(userReq.Arguments[0]);
                 audioURL = myList[0];
                 videoURL = myList[1];
@@ -390,9 +463,11 @@ namespace AWSLambdaTest
 
                 log.LogLine("Attempting to play: " + mediaTitle);
 
-                return PlayVideo(input, videoURL, imageURL, mediaTitle);
+                //Returns a video response. User is assumed to want to play a video, if menu is available. 
+                return PlayVideo(input, videoURL, mediaTitle);
             }
 
+            //Default speech response if nothing is triggered
             reprompt.OutputSpeech = new PlainTextOutputSpeech() { Text = "Please tell me what video you wanted to watch." };
             var response = ResponseBuilder.Ask(innerResponse, reprompt);
 
@@ -401,7 +476,7 @@ namespace AWSLambdaTest
             defaultResponse.Response = response.Response;
             defaultResponse.Version = "1.0";
 
-            //If video player is supported, create a render document as well.
+            //If video player is supported, create a render document as well. CAN BE SEPERATED INTO A FUNCTION
             if (VideoAppSupport)
             {
                 var directive = new RenderDocumentDirective()
